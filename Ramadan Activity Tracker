@@ -1,0 +1,119 @@
+record = {}
+
+def add_record():
+    day = int(input("Enter the day (1 to 30): "))
+    study = int(input("Enter hours of study: "))
+    recitation = int(input("Enter minutes of recitation: "))
+    fast = input("Did you fast today (yes/no): ")
+    prayer = input("Did you pray today (yes/no): ")
+    exercise = int(input("Enter hours of exercise: "))
+
+    record[day] = {
+        "study": study,
+        "recitation": recitation,
+        "fast": fast,
+        "prayer": prayer,
+        "exercise": exercise
+    }
+
+    print("Record added successfully.")
+    print(".......................................")
+
+
+
+def view_dict_records():
+    if not record:
+        print("No records in dictionary.")
+        return
+
+    for day, data in record.items():
+        print("\nDay:", day)
+        print("Study:", data["study"], "hours")
+        print("Recitation:", data["recitation"], "minutes")
+        print("Fast:", data["fast"])
+        print("Prayer:", data["prayer"])
+        print("Exercise:", data["exercise"], "hours")
+        print("------------------------")
+
+
+
+def save_to_file():
+    with open("ramadan_records.txt", "a") as file:
+
+        for day, data in record.items():
+
+            line = str(day) + "," + str(data["study"]) + "," + \
+                   str(data["recitation"]) + "," + data["fast"] + "," + \
+                   data["prayer"] + "," + str(data["exercise"]) + "\n"
+
+            file.write(line)
+
+    record.clear()
+
+    print("Record saved to file successfully.")
+    print(".......................................")
+
+
+
+def view_file_record():
+    try:
+        with open("ramadan_records.txt", "r") as file:
+            lines = file.readlines()
+
+        if not lines:
+            print("File is empty. No records found.")
+            return
+
+        for line in lines:
+            data = line.strip().split(",")
+
+            print("\nDay:", data[0])
+            print("Study:", data[1], "hours")
+            print("Recitation:", data[2], "minutes")
+            print("Fast:", data[3])
+            print("Prayer:", data[4])
+            print("Exercise:", data[5], "hours")
+            print("------------------------")
+
+    except FileNotFoundError:
+        print("No file found.")
+        print("...........................")
+
+
+
+def main():
+
+    while True:
+        print("\n======================")
+        print("Ramadan Tracking System")
+        print("=======================")
+        print("1. Add Record (Dictionary)")
+        print("2. View Dictionary Records")
+        print("3. Save Dictionary to File")
+        print("4. View File Records")
+        print("5. Exit")
+
+        user = int(input("Enter from 1 to 5: "))
+
+        if user == 1:
+            add_record()
+
+        elif user == 2:
+            view_dict_records()
+
+        elif user == 3:
+            save_to_file()
+
+        elif user == 4:
+            view_file_record()
+
+        elif user == 5:
+            print("Exiting Program...")
+            break
+
+        else:
+            print("Invalid number.")
+
+
+
+main()
